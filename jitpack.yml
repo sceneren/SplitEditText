@@ -1,6 +1,5 @@
 jdk:
   - openjdk11
-
 install:
   - ./gradlew :SplitEditText:build :SplitEditText:publishToMavenLocal
   - find . -name "*.aar"
