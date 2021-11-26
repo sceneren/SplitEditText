@@ -1,0 +1,6 @@
+jdk:
+  - openjdk11
+
+install:
+  - ./gradlew :Cryption:build :Cryption:publishToMavenLocal
+  - find . -name "*.aar"
