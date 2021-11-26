@@ -2,5 +2,5 @@ jdk:
   - openjdk11
 
 install:
-  - ./gradlew :Cryption:build :Cryption:publishToMavenLocal
+  - ./gradlew :SplitEditText:build :SplitEditText:publishToMavenLocal
   - find . -name "*.aar"
