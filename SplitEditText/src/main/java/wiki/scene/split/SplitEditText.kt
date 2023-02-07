@@ -2,9 +2,9 @@ package wiki.scene.split
 
 import android.content.Context
 import android.graphics.*
+import android.graphics.drawable.Drawable
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
-import android.text.InputType
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -77,6 +77,10 @@ class SplitEditText : AppCompatEditText {
     //是否是粗体
     private var isFakeBoldText = false
 
+    private var splitCursorVisible = false
+    private var splitTextCursorDrawable: Drawable? = null
+    private var splitInputType: Int = -99
+
     private val mRectF: RectF by lazy { RectF(0F, 0F, 0F, 0F) }
     private val mRadiusFirstArray: FloatArray by lazy { FloatArray(8) }
     private val mRadiusLastArray: FloatArray by lazy { FloatArray(8) }
@@ -133,12 +137,21 @@ class SplitEditText : AppCompatEditText {
                 R.styleable.SplitEditText_setFakeBoldText -> {
                     isFakeBoldText = a.getBoolean(attr, false)
                 }
+                R.styleable.SplitEditText_splitCursorVisible -> {
+                    splitCursorVisible = a.getBoolean(attr, false)
+                }
+                R.styleable.SplitEditText_splitTextCursorDrawable -> {
+                    splitTextCursorDrawable = a.getDrawable(attr)
+                }
+                R.styleable.SplitEditText_splitInputType -> {
+                    splitInputType = a.getInt(attr, -99)
+                }
             }
         }
 
         a.recycle()
 
-        inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+        inputType = splitInputType
 
         if (mInputBorderColor == 0) {
             mInputBorderColor = mBorderColor
@@ -157,7 +170,8 @@ class SplitEditText : AppCompatEditText {
         }
 
         background = null
-        isCursorVisible = false
+        isCursorVisible = splitCursorVisible
+
         filters = arrayOf<InputFilter>(LengthFilter(mMaxLength))
 
     }
@@ -291,10 +305,7 @@ class SplitEditText : AppCompatEditText {
                         mPaint.style = Paint.Style.FILL
                         mPaint.color = mBoxBackgroundColor
                         canvas.drawRoundRect(
-                            mRectF,
-                            mBorderCornerRadius,
-                            mBorderCornerRadius,
-                            mPaint
+                            mRectF, mBorderCornerRadius, mBorderCornerRadius, mPaint
                         )
                     }
                     mPaint.style = Paint.Style.STROKE
@@ -348,10 +359,7 @@ class SplitEditText : AppCompatEditText {
     }
 
     override fun onTextChanged(
-        text: CharSequence?,
-        start: Int,
-        lengthBefore: Int,
-        lengthAfter: Int
+        text: CharSequence?, start: Int, lengthBefore: Int, lengthAfter: Int
     ) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter)
         mTextLength = text!!.length

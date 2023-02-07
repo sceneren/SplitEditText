@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#2196F3"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
@@ -12,6 +13,8 @@
         app:setBorderColor="#FF0000"
         app:setBorderCornerRadius="10dp"
         app:setBorderSpacing="10dp"
+        app:splitCursorVisible="true"
+        app:splitInputType="phone"
         app:setBorderStyle="box"
         app:setMaxLength="6" />
 
